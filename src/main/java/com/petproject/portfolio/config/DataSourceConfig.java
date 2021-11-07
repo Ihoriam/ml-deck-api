@@ -1,4 +1,4 @@
-package com.petproject.achievement.config;
+package com.petproject.portfolio.config;
 
 import org.springframework.context.annotation.Configuration;
 

@@ -1,4 +1,4 @@
-package com.petproject.achievement;
+package com.petproject.portfolio;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -11,9 +11,9 @@ import java.util.Arrays;
 
 @SpringBootApplication
 @PropertySource("classpath:application.properties")
-public class AchievementApplication {
+public class PortfolioApplication {
     public static void main(String[] args) {
-        SpringApplication.run(AchievementApplication.class, args);
+        SpringApplication.run(PortfolioApplication.class, args);
     }
 
     @Bean
