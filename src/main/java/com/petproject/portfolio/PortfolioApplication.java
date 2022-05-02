@@ -15,19 +15,4 @@ public class PortfolioApplication {
     public static void main(String[] args) {
         SpringApplication.run(PortfolioApplication.class, args);
     }
-
-    @Bean
-    public CommandLineRunner commandLineRunner(ApplicationContext context) {
-        return args -> {
-
-            System.out.println("Let's inspect the beans provided by Spring Boot:");
-
-            String[] beanNames = context.getBeanDefinitionNames();
-            Arrays.sort(beanNames);
-            for (String beanName : beanNames) {
-                System.out.println(beanName);
-            }
-
-        };
-    }
 }
