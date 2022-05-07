@@ -19,7 +19,7 @@ public class DataSourceConfig {
     private String user;
 
     @Bean
-    DataSource getPortfolioDataSource() {
+    DataSource portfolioDataSource() {
         return DataSourceBuilder.create()
                 .url(dbUrl)
                 .password(password)

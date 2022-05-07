@@ -1,8 +1,8 @@
 plugins {
+    id 'java'
+    id "org.flywaydb.flyway" version "8.5.10"
     id 'org.springframework.boot' version '2.5.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'java'
-
 }
 
 group 'org.petproject'
@@ -14,12 +14,13 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.7'
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.7'
-    implementation 'org.projectlombok:lombok:1.18.24'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.7'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.6.7'
-    runtimeOnly 'org.postgresql:postgresql'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.7'
     implementation 'org.thymeleaf:thymeleaf:3.0.15.RELEASE'
+    implementation 'org.projectlombok:lombok:1.18.24'
+    runtimeOnly 'org.postgresql:postgresql:42.3.4'
+    implementation 'org.flywaydb:flyway-core'
 
 }
 
