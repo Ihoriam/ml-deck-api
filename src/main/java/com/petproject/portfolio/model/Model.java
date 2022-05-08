@@ -2,12 +2,14 @@ package com.petproject.portfolio.model;
 
 import com.petproject.portfolio.user.User;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.Instant;
 
 @Entity
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "model")
@@ -23,6 +25,9 @@ public class Model {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
     private User author;
+
+    @Column(name = "image_url")
+    private String imageUrl;
 
     @Column(name = "created_at")
     private Instant createdAt;

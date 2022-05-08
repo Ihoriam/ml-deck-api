@@ -4,6 +4,7 @@ create table if not exists "user"
     first_name varchar(100),
     last_name  varchar(100),
     email      varchar(200),
+    image_url  varchar,
     role       varchar(100),
     created_at timestamp
 );
@@ -13,6 +14,7 @@ create table if not exists model
     id         bigserial primary key,
     name       varchar(100),
     author_id  bigint,
+    image_url  varchar,
     created_at timestamp,
     constraint user_fk
         foreign key (author_id)
@@ -45,7 +47,6 @@ create table if not exists comment
     constraint post_fk
         foreign key (post_id)
             references post (id)
-
 )
 
 
