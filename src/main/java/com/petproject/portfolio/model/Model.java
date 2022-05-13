@@ -26,6 +26,10 @@ public class Model {
     @JoinColumn(name = "author_id")
     private User author;
 
+    @Column(name = "category")
+    @Enumerated(value = EnumType.STRING)
+    private Category category;
+
     @Column(name = "image_url")
     private String imageUrl;
 

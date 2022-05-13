@@ -14,6 +14,7 @@ create table if not exists model
     id         bigserial primary key,
     name       varchar(100),
     author_id  bigint,
+    category   varchar(30),
     image_url  varchar,
     created_at timestamp,
     constraint user_fk

@@ -11,6 +11,8 @@ public class ModelDto implements Serializable {
     private final Long id;
     private final String name;
     private final UserDto author;
+
+    private final Category category;
     private final String imageUrl;
     private final Instant createdAt;
 
@@ -18,6 +20,7 @@ public class ModelDto implements Serializable {
         this.id = model.getId();
         this.name = model.getName();
         this.author = new UserDto(model.getAuthor());
+        this.category = model .getCategory();
         this.imageUrl = model.getImageUrl();
         this.createdAt = model.getCreatedAt();
     }
