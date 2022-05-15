@@ -1,5 +1,5 @@
 # stage one: build
-FROM openjdk:11 as builder
+FROM adoptopenjdk/openjdk11:alpine as builder
 
 WORKDIR /tmp
 COPY . /tmp
@@ -8,10 +8,9 @@ RUN chmod +x gradlew
 RUN ./gradlew clean build
 
 #stage two: run
-FROM openjdk:11
+FROM adoptopenjdk/openjdk11:alpine-jre
 
 WORKDIR /app
-
 COPY --from=builder /tmp/build/libs/portfolio-1.0.jar /app
 
 EXPOSE 8080
