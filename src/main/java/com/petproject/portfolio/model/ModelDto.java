@@ -5,16 +5,16 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDate;
 
 @Data
 public class ModelDto implements Serializable {
     private final Long id;
     private final String name;
     private final UserDto author;
-
     private final Category category;
     private final String imageUrl;
-    private final Instant createdAt;
+    private final LocalDate createdAt;
 
     public ModelDto(Model model) {
         this.id = model.getId();
@@ -22,6 +22,6 @@ public class ModelDto implements Serializable {
         this.author = new UserDto(model.getAuthor());
         this.category = model .getCategory();
         this.imageUrl = model.getImageUrl();
-        this.createdAt = model.getCreatedAt();
+        this.createdAt = model.getCreatedAt().toLocalDate();
     }
 }
