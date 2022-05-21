@@ -13,6 +13,6 @@ FROM adoptopenjdk/openjdk11:alpine-jre
 WORKDIR /app
 COPY --from=builder /tmp/build/libs/portfolio-1.0.jar /app
 
-EXPOSE 8080
+EXPOSE 9090
 
 CMD java -jar /app/portfolio-1.0.jar
