@@ -13,6 +13,6 @@ public class HelloController {
 
     @GetMapping()
     public ResponseEntity<String> sayHello() {
-        return ResponseEntity.ok("Hello");
+        return ResponseEntity.ok("Hello!");
     }
 }

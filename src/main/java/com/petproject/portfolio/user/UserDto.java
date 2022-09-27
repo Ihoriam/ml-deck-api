@@ -1,5 +1,6 @@
 package com.petproject.portfolio.user;
 
+import com.petproject.portfolio.user.role.Role;
 import lombok.Data;
 
 import java.io.Serializable;

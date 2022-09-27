@@ -1,4 +1,4 @@
-package com.petproject.portfolio;
+package com.petproject.portfolio.comment;
 
 import com.petproject.portfolio.post.PostDto;
 import com.petproject.portfolio.user.UserDto;
