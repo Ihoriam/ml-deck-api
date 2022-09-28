@@ -4,7 +4,6 @@ import com.petproject.portfolio.user.UserDto;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.time.LocalDate;
 
 @Data
@@ -20,7 +19,7 @@ public class ModelDto implements Serializable {
         this.id = model.getId();
         this.name = model.getName();
         this.author = new UserDto(model.getAuthor());
-        this.category = model .getCategory();
+        this.category = model.getCategory();
         this.imageUrl = model.getImageUrl();
         this.createdAt = model.getCreatedAt().toLocalDate();
     }
