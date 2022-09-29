@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +19,8 @@ public class JwtUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Override
+    // todo: read about it
+    @Transactional
     public UserDetails loadUserByUsername(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User with such username does not exist"));
@@ -26,7 +28,6 @@ public class JwtUserDetailsService implements UserDetailsService {
     }
 
     private List<SimpleGrantedAuthority> getGrantedAuthoritiesByUser(User user) {
-//        return user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
-        return Collections.emptyList();
+        return user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
 }

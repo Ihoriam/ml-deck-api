@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.models.HttpMethod;
 import lombok.SneakyThrows;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.stream.Collectors;
 
+@Log4j2
 public class JwtUsernamePasswordFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
@@ -45,7 +47,7 @@ public class JwtUsernamePasswordFilter extends UsernamePasswordAuthenticationFil
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) {
         UserDetails user = (UserDetails) authentication.getPrincipal();
 //        todo:
         Algorithm algorithm = Algorithm.HMAC256("notverysecret".getBytes());
@@ -63,10 +65,12 @@ public class JwtUsernamePasswordFilter extends UsernamePasswordAuthenticationFil
                 .sign(algorithm);
         response.setHeader("access_token", accessToken);
         response.setHeader("refresh_token", refreshToken);
+        log.info("Successful authentication with username " + request.getParameter("username"));
     }
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
         super.unsuccessfulAuthentication(request, response, failed);
+        log.info("Unsuccessful authentication with username " + request.getParameter("username"));
     }
 }

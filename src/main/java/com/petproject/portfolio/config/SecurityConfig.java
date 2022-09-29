@@ -18,6 +18,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private static final String[] AUTH_WHITELIST = {
+            // -- Login url path
+            "/api/login",
+            // -- Swagger UI v2
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            // -- Swagger UI v3
+            "/v3/api-docs/**",
+            "/swagger-ui/**"};
     private final UserDetailsService userDetailsService;
 
     @Bean
@@ -36,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilter(new JwtUsernamePasswordFilter(authenticationManagerBean()));
         http.authorizeRequests()
-                .antMatchers("/api/login", "/swagger-ui/**","/api-docs/**").permitAll()
+                .antMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().permitAll();
     }
 
