@@ -1,5 +1,7 @@
 package com.petproject.portfolio.config;
 
+import com.petproject.portfolio.jwt.JwtAuthorizationFilter;
+import com.petproject.portfolio.jwt.JwtTokenProvider;
 import com.petproject.portfolio.jwt.JwtUsernamePasswordFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private static final String[] AUTH_WHITELIST = {
+    public static final String[] AUTH_WHITELIST = {
             // -- Login url path
             "/api/login",
             // -- Swagger UI v2
@@ -33,6 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/v3/api-docs/**",
             "/swagger-ui/**"};
     private final UserDetailsService userDetailsService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -48,10 +51,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.addFilter(new JwtUsernamePasswordFilter(authenticationManagerBean()));
         http.authorizeRequests()
                 .antMatchers(AUTH_WHITELIST).permitAll()
-                .anyRequest().permitAll();
+                .anyRequest().authenticated();
+        http.addFilter(new JwtUsernamePasswordFilter(authenticationManagerBean(), jwtTokenProvider))
+                .addFilterBefore(new JwtAuthorizationFilter(jwtTokenProvider), JwtUsernamePasswordFilter.class);
     }
 
     @Bean
