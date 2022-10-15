@@ -23,6 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String[] AUTH_WHITELIST = {
             // -- Login url path
             "/api/login",
+            "/api/token/refresh",
             // -- Swagger UI v2
             "/v2/api-docs",
             "/swagger-resources",
