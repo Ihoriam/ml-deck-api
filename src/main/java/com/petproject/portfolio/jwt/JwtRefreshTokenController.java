@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,19 +29,21 @@ public class JwtRefreshTokenController {
     private final JwtTokenProvider jwtTokenProvider;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-
+    @PostMapping
     public void refresh(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             try {
+                //todo: refactor this, put into jwtTokenProvider
                 String refreshToken = authorizationHeader.substring("Bearer ".length());
                 JWTVerifier verifier = JWT.require(jwtTokenProvider.getAlgorithm()).build();
                 DecodedJWT decodedJWT = verifier.verify(refreshToken);
                 String username = decodedJWT.getSubject();
                 UserDetails user = userDetailsService.loadUserByUsername(username);
                 AuthTokens tokens = jwtTokenProvider.generateTokens(user);
+                tokens.setRefreshToken(refreshToken);
                 response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-                objectMapper.writeValue(response.getOutputStream(), tokens.getAccessToken());
+                objectMapper.writeValue(response.getOutputStream(), tokens);
                 log.info("Successful sent access token after giving refresh token to user with username " + username);
             } catch (Exception ex) {
                 log.error("Error logging in: " + ex.getMessage());

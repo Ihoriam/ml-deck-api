@@ -1,11 +1,13 @@
 package com.petproject.portfolio.jwt;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class AuthTokens {
     private final String accessToken;
-    private final String refreshToken;
+    private String refreshToken;
 
     public AuthTokens(String accessToken, String refreshToken) {
         this.accessToken = accessToken;

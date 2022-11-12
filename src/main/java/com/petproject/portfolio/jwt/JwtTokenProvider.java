@@ -30,14 +30,14 @@ public class JwtTokenProvider {
     public AuthTokens generateTokens(UserDetails userDetails) {
         String accessToken = JWT.create()
                 .withSubject(userDetails.getUsername())
-                .withClaim("roles", userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-                .withExpiresAt(Instant.now().plusMillis(10 * 60 * 60))
+                .withClaim("roles",  userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+                .withExpiresAt(Instant.now().plusMillis(2 * 1000 * 60))
                 .withIssuer("Portfolio app")
                 .sign(algorithm);
         String refreshToken = JWT.create()
                 .withSubject(userDetails.getUsername())
                 .withClaim("roles", userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-                .withExpiresAt(Instant.now().plusMillis(30 * 60 * 60))
+                .withExpiresAt(Instant.now().plusMillis(30 * 1000 * 60))
                 .withIssuer("Portfolio app")
                 .sign(algorithm);
         return new AuthTokens(accessToken, refreshToken);

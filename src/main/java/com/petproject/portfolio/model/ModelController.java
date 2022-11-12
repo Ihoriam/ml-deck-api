@@ -4,9 +4,7 @@ import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,5 +22,15 @@ public class ModelController {
     @GetMapping("/{id}")
     public ResponseEntity<ModelDto> getById(@PathVariable Long id) throws NotFoundException {
         return ResponseEntity.ok(modelService.getById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<ModelDto> create(@RequestBody ModelCreateCommand command) throws NotFoundException {
+        return ResponseEntity.ok(modelService.create(command));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ModelDto> update(@PathVariable Long id, @RequestBody ModelUpdateCommand command) throws NotFoundException {
+        return ResponseEntity.ok(modelService.update(id, command));
     }
 }

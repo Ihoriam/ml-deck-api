@@ -12,50 +12,28 @@ create table if not exists "user"
 create table if not exists model
 (
     id         bigserial primary key,
-    name       varchar(100),
-    author_id  bigint,
-    category   varchar(30),
+    name       varchar(128),
+    category   varchar(64),
+    description text,
     image_url  varchar,
+    created_by bigint,
     created_at timestamp,
+    updated_by bigint,
+    updated_at timestamp,
     deleted    boolean,
-    constraint user_fk
-        foreign key (author_id)
-            references "user" (id)
-);
-
-create table if not exists post
-(
-    id         bigserial primary key,
-    title      varchar(200),
-    content    text,
-    author_id  bigint,
-    created_at timestamp,
-    deleted    boolean,
-    constraint user_fk
-        foreign key (author_id)
-            references "user" (id)
-);
-
-create table if not exists comment
-(
-    id        bigserial primary key,
-    content   varchar,
-    author_id bigint,
-    post_id   bigint,
-    deleted   boolean,
-    constraint user_fk
-        foreign key (author_id)
+    constraint created_by_fk
+        foreign key (created_by)
             references "user" (id),
-    constraint post_fk
-        foreign key (post_id)
-            references post (id)
+    constraint updated_by_fk
+        foreign key (updated_by)
+            references "user" (id)
 );
 
 create table if not exists role
 (
-    id serial primary key,
-    name varchar (100),
-    deleted    boolean
+    id      serial primary key,
+    name    varchar(100),
+    deleted boolean
 );
 
 create table if not exists user_role
