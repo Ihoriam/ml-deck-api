@@ -30,9 +30,7 @@ public class ModelService {
     @Transactional
     public ModelDto create(ModelCreateCommand command) throws NotFoundException {
         Model model = new Model();
-        model.setName(command.getName());
-        model.setCategory(command.getCategory());
-        model.setImageUrl(command.getImageUrl());
+        model.mapPrimitiveFields(command);
         return new ModelDto(modelRepository.save(model));
     }
 

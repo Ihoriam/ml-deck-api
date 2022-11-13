@@ -1,6 +1,7 @@
 package com.petproject.portfolio.model;
 
 import com.petproject.portfolio.user.User;
+import com.petproject.portfolio.utils.UserDetailsUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -57,10 +58,16 @@ public class Model {
     @Column(name = "deleted")
     private Boolean deleted = false;
 
-    public void mapPrimitiveFields(ModelUpdateCommand modelUpdateCommand) {
-        this.name = modelUpdateCommand.getName();
-        this.category = modelUpdateCommand.getCategory();
-        this.imageUrl = modelUpdateCommand.getImageUrl();
+    public void mapPrimitiveFields(ModelCommand command) {
+        this.name = command.getName();
+        this.category = command.getCategory();
+        this.imageUrl = command.getImageUrl();
+        this.description = command.getDescription();
+        if (command instanceof ModelCreateCommand) {
+            this.createdBy = UserDetailsUtils.getUser().orElse(null);
+        } else {
+            this.updatedBy = UserDetailsUtils.getUser().orElse(null);
+        }
     }
 }
 

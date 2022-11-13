@@ -5,8 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ModelCreateCommand {
+public class ModelCreateCommand implements ModelCommand {
     private String name;
     private Category category;
     private String imageUrl;
+    private String description;
 }
