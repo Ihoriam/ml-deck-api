@@ -2,7 +2,7 @@ package com.petproject.portfolio.model;
 
 public interface ModelCommand {
     String getName();
-    String getImageUrl();
+    String getDockerHubImageUrl();
     String getDescription();
     Category getCategory();
 }

@@ -3,11 +3,16 @@ package com.petproject.portfolio.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotEmpty;
+
 @Getter
 @Setter
 public class ModelCreateCommand implements ModelCommand {
+    @NotEmpty
     private String name;
+    @NotEmpty
     private Category category;
-    private String imageUrl;
+    @NotEmpty
+    private String dockerHubImageUrl;
     private String description;
 }

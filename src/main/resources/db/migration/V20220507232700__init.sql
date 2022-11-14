@@ -11,16 +11,17 @@ create table if not exists "user"
 
 create table if not exists model
 (
-    id         bigserial primary key,
-    name       varchar(128),
-    category   varchar(64),
-    description text,
-    image_url  varchar,
-    created_by bigint,
-    created_at timestamp,
-    updated_by bigint,
-    updated_at timestamp,
-    deleted    boolean,
+    id           bigserial primary key,
+    name         varchar(128),
+    category     varchar(64),
+    description  text,
+    image_url    varchar,
+    created_by   bigint,
+    created_at   timestamp,
+    updated_by   bigint,
+    updated_at   timestamp,
+    endorsements integer check ( endorsements >= 0 ),
+    deleted      boolean,
     constraint created_by_fk
         foreign key (created_by)
             references "user" (id),

@@ -1,6 +1,5 @@
 package com.petproject.portfolio.model;
 
-import com.petproject.portfolio.user.UserRepository;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ModelService {
     private final ModelRepository modelRepository;
-    private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
     public List<ModelDto> getAll() {
@@ -28,7 +26,7 @@ public class ModelService {
     }
 
     @Transactional
-    public ModelDto create(ModelCreateCommand command) throws NotFoundException {
+    public ModelDto create(ModelCreateCommand command) {
         Model model = new Model();
         model.mapPrimitiveFields(command);
         return new ModelDto(modelRepository.save(model));
@@ -38,9 +36,7 @@ public class ModelService {
     public ModelDto update(long id, ModelUpdateCommand command) throws NotFoundException {
         Model model = modelRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Model with id " + id + "does not exist"));
-        model.setName(command.getName());
-        model.setCategory(command.getCategory());
-        model.setImageUrl(command.getImageUrl());
+        model.mapPrimitiveFields(command);
         return new ModelDto(modelRepository.save(model));
     }
 

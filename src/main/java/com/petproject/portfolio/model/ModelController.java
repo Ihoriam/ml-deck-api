@@ -4,6 +4,7 @@ import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class ModelController {
     }
 
     @PostMapping
-    public ResponseEntity<ModelDto> create(@RequestBody ModelCreateCommand command) throws NotFoundException {
+    public ResponseEntity<ModelDto> create(@RequestBody @Validated ModelCreateCommand command) throws NotFoundException {
         return ResponseEntity.ok(modelService.create(command));
     }
 

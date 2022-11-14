@@ -36,8 +36,9 @@ public class Model {
     @Enumerated(value = EnumType.STRING)
     private Category category;
 
-    @Column(name = "image_url")
-    private String imageUrl;
+    @Column(name = "docker_hub_image_url")
+    private String dockerHubImageUrl;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by")
@@ -61,7 +62,7 @@ public class Model {
     public void mapPrimitiveFields(ModelCommand command) {
         this.name = command.getName();
         this.category = command.getCategory();
-        this.imageUrl = command.getImageUrl();
+        this.dockerHubImageUrl = command.getDockerHubImageUrl();
         this.description = command.getDescription();
         if (command instanceof ModelCreateCommand) {
             this.createdBy = UserDetailsUtils.getUser().orElse(null);
