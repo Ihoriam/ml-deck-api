@@ -39,7 +39,6 @@ public class Model {
     @Column(name = "docker_hub_image_url")
     private String dockerHubImageUrl;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by")
     private User createdBy;
@@ -56,6 +55,9 @@ public class Model {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(name = "endorsement_count")
+    private Integer endorsementCount = 0;
+
     @Column(name = "deleted")
     private Boolean deleted = false;
 
@@ -69,6 +71,11 @@ public class Model {
         } else {
             this.updatedBy = UserDetailsUtils.getUser().orElse(null);
         }
+    }
+
+    // todo: remove this synchronized method. Maybe use volatile keyword or something else
+    public synchronized void incrementEndorsementCount() {
+        endorsementCount++;
     }
 }
 

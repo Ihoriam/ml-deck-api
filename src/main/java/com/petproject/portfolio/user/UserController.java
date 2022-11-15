@@ -4,11 +4,9 @@ import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -17,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+
 
     @GetMapping()
     public ResponseEntity<List<UserDto>> getAll() {
@@ -33,8 +32,8 @@ public class UserController {
         return ResponseEntity.ok(userService.getByUsername(username));
     }
 
-    @PostMapping()
-    public ResponseEntity<UserDto> create(UserCommand userCommand) {
-        return ResponseEntity.ok(userService.save(userCommand));
+    @PostMapping("/register")
+    public ResponseEntity<UserDto> create(@RequestBody @Valid UserCommand userCommand) {
+        return ResponseEntity.ok(userService.createUser(userCommand));
     }
 }

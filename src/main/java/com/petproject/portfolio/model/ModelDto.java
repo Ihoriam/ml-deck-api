@@ -15,7 +15,7 @@ public class ModelDto implements Serializable {
     private final Long id;
     private final String name;
     private final Category category;
-    private final String imageUrl;
+    private final String dockerHubImageUrl;
     private final String description;
     private final UserDto createdBy;
     private final LocalDateTime createdAt;
@@ -26,7 +26,7 @@ public class ModelDto implements Serializable {
         this.id = model.getId();
         this.name = model.getName();
         this.category = model.getCategory();
-        this.imageUrl = model.getImageUrl();
+        this.dockerHubImageUrl = model.getDockerHubImageUrl();
         this.description = model.getDescription();
         this.createdBy = maybe(model.getCreatedBy(), UserDto::new);
         this.createdAt = model.getCreatedAt();

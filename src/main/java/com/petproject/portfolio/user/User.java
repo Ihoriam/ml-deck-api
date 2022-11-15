@@ -32,8 +32,8 @@ public class User {
     @Column(name = "email", length = 200, nullable = false)
     private String email;
 
-    @Column(name = "image_url")
-    private String imageUrl;
+    @Column(name = "emoji", length = 20)
+    private String emoji;
 
     @ManyToMany
     @JoinTable(name = "user_role",
@@ -46,11 +46,4 @@ public class User {
 
     @Column(name = "deleted")
     private Boolean deleted = false;
-
-    public User(String username, String password, String email, String imageUrl) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.imageUrl = imageUrl;
-    }
 }

@@ -41,10 +41,19 @@ public class ModelService {
     }
 
     @Transactional
-    public ModelDto delete(long id) throws NotFoundException {
+    public void deleteModelById(long id) throws NotFoundException {
         Model model = modelRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Model with id " + id + "does not exist"));
         model.setDeleted(true);
-        return new ModelDto(model);
+        modelRepository.save(model);
+    }
+
+    @Transactional
+    // todo: think about thread safety (data race)
+    public ModelDto endorseModel(long id) throws NotFoundException {
+        Model model = modelRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Model with id " + id + "does not exist"));
+        model.incrementEndorsementCount();
+        return new ModelDto(modelRepository.save(model));
     }
 }

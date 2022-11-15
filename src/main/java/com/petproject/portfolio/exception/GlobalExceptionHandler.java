@@ -1,6 +1,5 @@
 package com.petproject.portfolio.exception;
 
-import javassist.NotFoundException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
@@ -16,14 +15,20 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CONFLICT;
 
 @Log4j2
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<Error> handleBadRequest(RuntimeException ex) {
+    public ResponseEntity<Error> handleNotFound(RuntimeException ex) {
         return ResponseEntity.badRequest().body(new Error(ex.getMessage(), BAD_REQUEST));
+    }
+
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<Error> handleConflict(RuntimeException ex) {
+        return ResponseEntity.badRequest().body(new Error(ex.getMessage(), CONFLICT));
     }
 
     @Override

@@ -2,11 +2,13 @@ package com.petproject.portfolio.model;
 
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -31,7 +33,18 @@ public class ModelController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ModelDto> update(@PathVariable Long id, @RequestBody ModelUpdateCommand command) throws NotFoundException {
+    public ResponseEntity<ModelDto> update(@PathVariable Long id, @Valid @RequestBody ModelUpdateCommand command) throws NotFoundException {
         return ResponseEntity.ok(modelService.update(id, command));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ModelDto> delete(@PathVariable Long id) throws NotFoundException {
+        modelService.deleteModelById(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/{id}/endorse")
+    public ResponseEntity<ModelDto> endorse(@PathVariable Long id) throws NotFoundException {
+        return ResponseEntity.ok(modelService.endorseModel(id));
     }
 }
