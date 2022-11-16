@@ -1,7 +1,7 @@
 package com.petproject.portfolio.user;
 
 import com.petproject.portfolio.exception.ConflictException;
-import javassist.NotFoundException;
+import com.petproject.portfolio.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

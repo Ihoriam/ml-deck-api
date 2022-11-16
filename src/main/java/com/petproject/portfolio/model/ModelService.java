@@ -1,9 +1,12 @@
 package com.petproject.portfolio.model;
 
-import javassist.NotFoundException;
+import com.petproject.portfolio.exception.NotFoundException;
+import com.petproject.portfolio.model.container.ContainerInfo;
+import com.petproject.portfolio.model.container.ContainerProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.testcontainers.containers.GenericContainer;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -55,5 +58,16 @@ public class ModelService {
                 .orElseThrow(() -> new NotFoundException("Model with id " + id + "does not exist"));
         model.incrementEndorsementCount();
         return new ModelDto(modelRepository.save(model));
+    }
+
+    public ContainerInfo runModelContainerById(Long id) throws InterruptedException {
+        Model model = modelRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Model with id " + id + "does not exist"));
+
+        GenericContainer container = ContainerProvider.getContainerByDockerHubUrl(model.getDockerHubImageUrl());
+        container.start();
+        // 30 second
+        Thread.sleep(1 * 60 * 1000 / 2);
+        return new ContainerInfo(container);
     }
 }

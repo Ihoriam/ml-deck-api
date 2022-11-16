@@ -1,6 +1,6 @@
 package com.petproject.portfolio.user;
 
-import javassist.NotFoundException;
+import com.petproject.portfolio.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

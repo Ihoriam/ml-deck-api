@@ -1,8 +1,8 @@
 package com.petproject.portfolio.model;
 
-import javassist.NotFoundException;
+import com.petproject.portfolio.exception.NotFoundException;
+import com.petproject.portfolio.model.container.ContainerInfo;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -46,5 +46,10 @@ public class ModelController {
     @PatchMapping("/{id}/endorse")
     public ResponseEntity<ModelDto> endorse(@PathVariable Long id) throws NotFoundException {
         return ResponseEntity.ok(modelService.endorseModel(id));
+    }
+
+    @GetMapping("/{id}/container/run")
+    public ResponseEntity<ContainerInfo> runModelContainerById(@PathVariable Long id) throws InterruptedException {
+        return ResponseEntity.ok(modelService.runModelContainerById(id));
     }
 }
