@@ -60,14 +60,5 @@ public class ModelService {
         return new ModelDto(modelRepository.save(model));
     }
 
-    public ContainerInfo runModelContainerById(Long id) throws InterruptedException {
-        Model model = modelRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Model with id " + id + "does not exist"));
 
-        GenericContainer container = ContainerProvider.getContainerByDockerHubUrl(model.getDockerHubImageUrl());
-        container.start();
-        // 30 second
-        Thread.sleep(1 * 60 * 1000 / 2);
-        return new ContainerInfo(container);
-    }
 }
