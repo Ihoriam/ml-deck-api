@@ -1,5 +1,6 @@
 package com.petproject.portfolio.model.container;
 
+import com.petproject.portfolio.utils.SpringUtils;
 import lombok.Getter;
 import lombok.Setter;
 import org.testcontainers.containers.GenericContainer;
@@ -12,10 +13,8 @@ public class ContainerInfo {
     private boolean dockerContainerActive;
 
     public ContainerInfo(GenericContainer container) {
-        // todo: get info using Docker Hub API
-        // example
-        https://hub.docker.com/v2/repositories/bluewhitebox/flask-api-one
-        this.dockerHubAvailable = true;
+        this.dockerHubAvailable = SpringUtils.getBean(ContainerService.class)
+                .isDockerHubRepoExist(container.getDockerImageName());
         this.dockerContainerActive = container.isRunning();
     }
 
