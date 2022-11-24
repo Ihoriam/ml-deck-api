@@ -53,14 +53,5 @@ public class ContainerService {
         System.out.println(baseContainerAddress);
     }
 
-    public boolean isDockerHubRepoExist(String dockerHubRepoName) {
-        PreparedRestTemplate preparedRestTemplate = PreparedRestTemplate.builder()
-                .url("https://hub.docker.com/v2/repositories/" + dockerHubRepoName)
-                .httpMethod(HttpMethod.GET)
-                .build();
-        ResponseEntity<Object> response = RestTemplateExecutor.exchange(preparedRestTemplate, Object.class);
-        return response.getStatusCode().is2xxSuccessful();
-    }
-
 
 }

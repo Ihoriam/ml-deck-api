@@ -1,5 +1,6 @@
 package com.petproject.portfolio.model.container;
 
+import com.petproject.portfolio.dockerhub.DockerHubService;
 import com.petproject.portfolio.utils.SpringUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,8 +14,8 @@ public class ContainerInfo {
     private boolean dockerContainerActive;
 
     public ContainerInfo(GenericContainer container) {
-        this.dockerHubAvailable = SpringUtils.getBean(ContainerService.class)
-                .isDockerHubRepoExist(container.getDockerImageName());
+        this.dockerHubAvailable = SpringUtils.getBean(DockerHubService.class)
+                .isDockerHubImageExist(container.getDockerImageName());
         this.dockerContainerActive = container.isRunning();
     }
 
