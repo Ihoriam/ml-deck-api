@@ -14,7 +14,7 @@ public class DockerHubController {
     private final DockerHubService dockerHubService;
 
     @GetMapping("/repositories/check")
-    public ResponseEntity<Boolean> isDockerHubRepoExist(@RequestParam String name) {
-        return ResponseEntity.ok(dockerHubService.isDockerHubImageExist(name));
+    public ResponseEntity<DockerHubInfo> isDockerHubRepoExist(@RequestParam String name) {
+        return ResponseEntity.ok(dockerHubService.getInfoAboutDockerHubImageByName(name));
     }
 }

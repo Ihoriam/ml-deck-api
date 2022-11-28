@@ -11,8 +11,14 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class DockerHubService {
 
+    public DockerHubInfo getInfoAboutDockerHubImageByName(String name) {
+        DockerHubInfo dockerHubInfo = new DockerHubInfo();
+        dockerHubInfo.setDockerHubImageExist(isDockerHubImageExist(name));
+        return dockerHubInfo;
+    }
+
     //todo: static? maybe its not service but some helper class
-    public DockerHubApiResponse getInfoAboutDockerHubRepo(String dockerHubRepoName) {
+    public DockerHubApiResponse getInfoAboutDockerHubRepoFromApi(String dockerHubRepoName) {
         PreparedRestTemplate preparedRestTemplate = PreparedRestTemplate.builder()
                 .url("https://hub.docker.com/v2/repositories/" + dockerHubRepoName)
                 .httpMethod(HttpMethod.GET)
@@ -26,7 +32,7 @@ public class DockerHubService {
     }
 
     public boolean isDockerHubImageExist(String dockerHubRepoName) {
-        DockerHubApiResponse infoAboutDockerHubRepo = getInfoAboutDockerHubRepo(dockerHubRepoName);
+        DockerHubApiResponse infoAboutDockerHubRepo = getInfoAboutDockerHubRepoFromApi(dockerHubRepoName);
         return infoAboutDockerHubRepo != null
                 && infoAboutDockerHubRepo.getStatusDescription() != null
                 && infoAboutDockerHubRepo.getStatusDescription().equals("active");
