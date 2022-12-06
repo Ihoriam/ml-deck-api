@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static com.petproject.portfolio.utils.Utils.maybe;
@@ -18,9 +19,9 @@ public class ModelDto implements Serializable {
     private final String dockerHubImageUrl;
     private final String description;
     private final UserDto createdBy;
-    private final LocalDateTime createdAt;
+    private final LocalDate createdAt;
     private final UserDto updatedBy;
-    private final LocalDateTime updatedAt;
+    private final LocalDate updatedAt;
 
     public ModelDto(Model model) {
         this.id = model.getId();
@@ -29,8 +30,8 @@ public class ModelDto implements Serializable {
         this.dockerHubImageUrl = model.getDockerHubImageUrl();
         this.description = model.getDescription();
         this.createdBy = maybe(model.getCreatedBy(), UserDto::new);
-        this.createdAt = model.getCreatedAt();
+        this.createdAt = model.getCreatedAt().toLocalDate();
         this.updatedBy = maybe(model.getUpdatedBy(), UserDto::new);
-        this.updatedAt = model.getUpdatedAt();
+        this.updatedAt = maybe(model.getUpdatedAt(), LocalDateTime::toLocalDate);
     }
 }

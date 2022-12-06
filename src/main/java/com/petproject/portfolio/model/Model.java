@@ -43,7 +43,6 @@ public class Model {
     @JoinColumn(name = "created_by")
     private User createdBy;
 
-    @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -51,7 +50,6 @@ public class Model {
     @JoinColumn(name = "updated_by")
     private User updatedBy;
 
-    @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
@@ -68,8 +66,10 @@ public class Model {
         this.description = command.getDescription();
         if (command instanceof ModelCreateCommand) {
             this.createdBy = UserDetailsUtils.getUser().orElse(null);
+            this.createdAt = LocalDateTime.now();
         } else {
             this.updatedBy = UserDetailsUtils.getUser().orElse(null);
+            this.updatedAt = LocalDateTime.now();
         }
     }
 
