@@ -1,6 +1,6 @@
 package com.petproject.portfolio.model.container;
 
-import com.petproject.portfolio.dockerhub.DockerHubService;
+import com.petproject.portfolio.dockerhub.DockerHubInfoProvider;
 import com.petproject.portfolio.exception.NotFoundException;
 import com.petproject.portfolio.model.Model;
 import com.petproject.portfolio.model.ModelRepository;
@@ -16,7 +16,7 @@ import org.testcontainers.containers.GenericContainer;
 @RequiredArgsConstructor
 public class ContainerService {
     private final ModelRepository modelRepository;
-    private final DockerHubService dockerHubService;
+    private final DockerHubInfoProvider dockerHubInfoProvider;
 
     public ContainerResponse getResponseFromContainerByModelId(Long id, PromptCommand command) throws NotFoundException {
         Model model = modelRepository.findById(id)
@@ -39,7 +39,7 @@ public class ContainerService {
         Model model = modelRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Model with id " + id + "does not exist"));
         ContainerInfo containerInfo = new ContainerInfo();
-        if (!dockerHubService.isDockerHubImageExist(model.getDockerHubImageUrl())) {
+        if (!dockerHubInfoProvider.isDockerHubImageExist(model.getDockerHubImageUrl())) {
             containerInfo.setDockerContainerActive(false);
             return containerInfo;
         }

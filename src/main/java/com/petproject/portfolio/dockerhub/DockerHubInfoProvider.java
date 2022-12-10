@@ -9,16 +9,22 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class DockerHubService {
+public class DockerHubInfoProvider {
 
-    public DockerHubInfo getInfoAboutDockerHubImageByName(String name) {
+    public static DockerHubInfo getDockerHubImageInfoByImageName(String name) {
         DockerHubInfo dockerHubInfo = new DockerHubInfo();
         dockerHubInfo.setDockerHubImageExist(isDockerHubImageExist(name));
         return dockerHubInfo;
     }
 
-    //todo: static? maybe its not service but some helper class
-    public DockerHubApiResponse getInfoAboutDockerHubRepoFromApi(String dockerHubRepoName) {
+    public static boolean isDockerHubImageExist(String dockerHubRepoName) {
+        DockerHubApiResponse infoAboutDockerHubRepo = getInfoAboutDockerHubRepoFromApi(dockerHubRepoName);
+        return infoAboutDockerHubRepo != null
+                && infoAboutDockerHubRepo.getStatusDescription() != null
+                && infoAboutDockerHubRepo.getStatusDescription().equals("active");
+    }
+
+    private static DockerHubApiResponse getInfoAboutDockerHubRepoFromApi(String dockerHubRepoName) {
         PreparedRestTemplate preparedRestTemplate = PreparedRestTemplate.builder()
                 .url("https://hub.docker.com/v2/repositories/" + dockerHubRepoName)
                 .httpMethod(HttpMethod.GET)
@@ -29,13 +35,5 @@ public class DockerHubService {
         } catch (Exception e) {
             return null;
         }
-    }
-
-    public boolean isDockerHubImageExist(String dockerHubRepoName) {
-        DockerHubApiResponse infoAboutDockerHubRepo = getInfoAboutDockerHubRepoFromApi(dockerHubRepoName);
-        return infoAboutDockerHubRepo != null
-                && infoAboutDockerHubRepo.getStatusDescription() != null
-                && infoAboutDockerHubRepo.getStatusDescription().equals("active");
-
     }
 }

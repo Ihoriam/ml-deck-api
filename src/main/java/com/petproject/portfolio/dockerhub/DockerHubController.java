@@ -11,10 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 @RequestMapping("/api/dockerhub")
 public class DockerHubController {
-    private final DockerHubService dockerHubService;
 
     @GetMapping("/repositories/check")
     public ResponseEntity<DockerHubInfo> isDockerHubRepoExist(@RequestParam String name) {
-        return ResponseEntity.ok(dockerHubService.getInfoAboutDockerHubImageByName(name));
+        return ResponseEntity.ok(DockerHubInfoProvider.getDockerHubImageInfoByImageName(name));
     }
 }
